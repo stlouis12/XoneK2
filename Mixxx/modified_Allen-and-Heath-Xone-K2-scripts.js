@@ -278,7 +278,7 @@ XoneK2.Deck = function (column, deckNumber, midiChannel) {
         }
 
         this.effect_unit = options.effect_unit;
-        this.outKey = options.cueName + '_enabled';
+        this.outKey = options.cueName + '_status';
         components.Button.call(this, options);
     };
     CueAndSeekButton.prototype = new components.Button({
@@ -329,59 +329,71 @@ XoneK2.Deck = function (column, deckNumber, midiChannel) {
         color: XoneK2.color.red,
     });
 
-    this.bottomButtonLayers.syncAndLoadLayer = new components.ComponentContainer();
-    this.bottomButtonLayers.syncAndLoadLayer[1] = new components.Button({
-        inKey: 'sync_leader',
-        outKey: 'sync_leader',
-        type: components.Button.prototype.types.push,
-        color: XoneK2.color.green,
-    });
-    this.bottomButtonLayers.syncAndLoadLayer[2] = new components.Button({
-        key: 'sync_enabled',
-        outKey: 'sync_enabled',
-        type: components.Button.prototype.types.toggle,
-        color: XoneK2.color.green,
-    });
-    this.bottomButtonLayers.syncAndLoadLayer[3] = new components.Button({
-        input: function() {}, // Unused
-        color: XoneK2.color.green,
-    });
-    this.bottomButtonLayers.syncAndLoadLayer[4] = new components.Button({
-        input: function(channel, control, value, status) {
-            if (this.isPress(channel, control, value, status)) {
-                engine.setValue(this.group, 'LoadSelectedTrack', 1);
-            }
-        },
-        outKey: 'track_ends_soon',
-        color: XoneK2.color.green,
-    });
+    var SyncAndLoadLayer = function() {
+        components.ComponentContainer.call(this);
 
-    this.bottomButtonLayers.playAndPitch  = new components.ComponentContainer();
-    // Button 1: Increase speed (rate_temp_up)
-    this.bottomButtonLayers.playAndPitch [1] = new components.Button({
-        inKey: 'rate_temp_up',
-        type: components.Button.prototype.types.push,
-        color: XoneK2.color.amber,
-    });
-    // Button 2: Decrease speed (rate_temp_down)
-    this.bottomButtonLayers.playAndPitch [2] = new components.Button({
-        inKey: 'rate_temp_down',
-        type: components.Button.prototype.types.push,
-        color: XoneK2.color.amber,
-    });
-    // Button 3: Cue
-    this.bottomButtonLayers.playAndPitch [3] = new components.Button({
-        inKey: 'cue_default',
-        outKey: 'cue_indicator',
-        type: components.Button.prototype.types.push,
-        color: XoneK2.color.gamberreen,
-    });
-    // Button 4: Play/Pause
-    this.bottomButtonLayers.playAndPitch [4] = new components.Button({
-        key: 'play',
-        type: components.Button.prototype.types.toggle,
-        color: XoneK2.color.amber,
-    });
+        this[1] = new components.Button({
+            inKey: 'sync_leader',
+            outKey: 'sync_leader',
+            type: components.Button.prototype.types.push,
+            color: XoneK2.color.green,
+        });
+        this[2] = new components.Button({
+            key: 'sync_enabled',
+            outKey: 'sync_enabled',
+            type: components.Button.prototype.types.toggle,
+            color: XoneK2.color.green,
+        });
+        this[3] = new components.Button({
+            input: function() {}, // Unused
+            color: XoneK2.color.green,
+        });
+        this[4] = new components.Button({
+            input: function(channel, control, value, status) {
+                if (this.isPress(channel, control, value, status)) {
+                    engine.setValue(this.group, 'LoadSelectedTrack', 1);
+                }
+            },
+            outKey: 'track_ends_soon',
+            color: XoneK2.color.green,
+        });
+    };
+    SyncAndLoadLayer.prototype = new components.ComponentContainer();
+
+    this.bottomButtonLayers.syncAndLoadLayer = new SyncAndLoadLayer();
+
+    var PlayAndPitchLayer = function() {
+        components.ComponentContainer.call(this);
+
+        // Button 1: Increase speed (rate_temp_up)
+        this[1] = new components.Button({
+            inKey: 'rate_temp_up',
+            type: components.Button.prototype.types.push,
+            color: XoneK2.color.amber,
+        });
+        // Button 2: Decrease speed (rate_temp_down)
+        this[2] = new components.Button({
+            inKey: 'rate_temp_down',
+            type: components.Button.prototype.types.push,
+            color: XoneK2.color.amber,
+        });
+        // Button 3: Cue
+        this[3] = new components.Button({
+            inKey: 'cue_default',
+            outKey: 'cue_indicator',
+            type: components.Button.prototype.types.push,
+            color: XoneK2.color.amber,
+        });
+        // Button 4: Play/Pause
+        this[4] = new components.Button({
+            key: 'play',
+            type: components.Button.prototype.types.toggle,
+            color: XoneK2.color.amber,
+        });
+    };
+    PlayAndPitchLayer.prototype = new components.ComponentContainer();
+
+    this.bottomButtonLayers.playAndPitch = new PlayAndPitchLayer();
 
     var setGroup = function (component) {
         if (component.group === undefined) {
@@ -394,6 +406,8 @@ XoneK2.Deck = function (column, deckNumber, midiChannel) {
         if (this.bottomButtonLayers.hasOwnProperty(layerName)) {
             var layer = this.bottomButtonLayers[layerName];
             if (layerName === 'syncAndLoadLayer') {
+                XoneK2.setBottomButtonsMidiGreen(layer, column, midiChannel);
+            } else if (layerName === 'playAndPitch') {
                 XoneK2.setBottomButtonsMidiAmber(layer, column, midiChannel);
             } else { // 'hotcue' layer
                 XoneK2.setBottomButtonsMidi(layer, column, midiChannel);
