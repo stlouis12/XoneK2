@@ -1,26 +1,35 @@
-These are my mappings for my Xone K2 controller that I used Traktor and just created for Mixxx to replicate my configuration I've been using for over a decaded. Use them, don't use them, I don't care. I'm putting them here for myself so I don't have to wonder which folder I hid them away in or what USB drive they're on next time I need to load them. That and the amount of effort to create js mappings for Mixxx...
+# My Xone K2 Mixxx Mappings
 
-== Button layout ==
+These are my mappings for my Xone K2 controller. I used a similar setup in Traktor for over a decade and just created these for Mixxx to replicate that configuration. I'm mostly putting them here for myself so I don't lose them, but feel free to use them.
 
-Top rotary encoders used for loop toggle and size adjust
+## Button Layout
 
-== FX controls ==
+*   **Top rotary encoders**: Used for loop toggle and size adjustment.
 
-Rotary knobs used to adjust effects. Hold shift to select effect. More or less the same as the canned Mixxx template
-Top buttons used to toggle effects
+## FX Controls
 
-Faders used to adjust FX unit
+*   **Rotary knobs**: Adjust effect parameters. Hold shift while turning to select an effect.
+*   **Top buttons**: Toggle effects on/off.
+*   **Faders**: Adjust FX unit dry/wet mix.
 
-== Deck controls ==
+## Deck Controls
 
-Bottom buttons with latching layers enabled. 
+The bottom buttons use latching layers.
 
-Red layer used for hotcues 1-4. Shift modifier allows to toggle FX units 1-4 on off for each deck
+*   **Red Layer**: Hotcues 1-4.
+    *   **Shift + Button**: Toggle FX units 1-4 on/off for the corresponding deck.
+*   **Orange Layer**:
+    *   Top 2 buttons for pitch bend +/-.
+    *   3rd button down for CUE.
+    *   4th button for Play/Pause.
+*   **Green Layer**:
+    *   1st button for Sync Master.
+    *   2nd button to toggle Sync.
+    *   3rd button is unused.
+    *   4th button to load the selected track.
 
-Orange layer: top 2 buttons for pitch bend, 3rd button down for CUE, 4th button for Play
+## Library Controls
 
-Green Layer: Top button set sync Master (doesn't seem to work in Mixxx as it did in Traktor), 2nd button toggle Sync, 3rd button unused, 4th button Load
-
-== Library controls ==
-
-Bottom Rotary encoders: Left scroll library folder pane. Right scroll track list, press to toggle full screen library
+*   **Bottom Rotary Encoders**:
+    *   **Left**: Scroll through the library folder/playlist pane. Press to expand/collapse the selected item.
+    *   **Right**: Scroll through the track list. Press to toggle the full-screen library view.
